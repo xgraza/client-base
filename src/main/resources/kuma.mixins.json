@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "us.kuma.client.mixin.impl",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "network.ConnectionMixin"
+  ],
+  "client": [
+    "entity.LocalPlayerMixin",
+    "input.KeyboardHandlerMixin",
+    "network.ClientPacketListenerMixin",
+    "render.GameRendererMixin",
+    "render.LightTextureMixin",
+    "render.gui.CommandSuggestionsMixin",
+    "render.gui.GuiGraphicsMixin",
+    "render.gui.screen.chat.ChatScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

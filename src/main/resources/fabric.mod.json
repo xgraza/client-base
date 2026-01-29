@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "kuma",
+  "version": "${version}",
+  "name": "Kuma",
+  "description": "A fabric client base for Minecraft ${minecraft_version}",
+  "authors": [
+    "xgraza"
+  ],
+  "contact": {
+    "homepage": "https://github.com/xgraza/client-base",
+    "sources": "https://github.com/xgraza/client-base"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/kuma/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "us.kuma.client.KumaMod"
+    ]
+  },
+  "mixins": [
+    "kuma.mixins.json"
+  ],
+  "accessWidener": "kuma.accesswidener",
+  "depends": {
+    "fabricloader": ">=${fabric_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=21"
+  }
+}

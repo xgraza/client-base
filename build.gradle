@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) xgraza 2026
+ */
+
+plugins {
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'com.github.gmazzo.buildconfig' version "${build_config_version}"
+}
+
+version = mod_version
+group = maven_group
+
+buildConfig {
+    buildConfigField(String, "HASH", "${execute("git rev-parse --short HEAD")}")
+    buildConfigField(String, "BRANCH", "${execute("git branch --show-current")}")
+    buildConfigField(String, "NAME", mod_name.toString())
+    buildConfigField(String, "GROUP", group.toString())
+    buildConfigField(String, "VERSION", version.toString())
+    buildConfigField(String, "BUILD_TIME", "${new Date(System.currentTimeMillis()).format("MM/dd/yyyy HH:mm")}")
+
+    packageName "${group}.util"
+    useJavaOutput()
+    generateAtSync = true
+}
+
+sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/kuma.accesswidener")
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:$minecraft_version"
+    mappings loom.officialMojangMappings()
+
+    modImplementation "net.fabricmc:fabric-loader:$loader_version"
+}
+
+processResources {
+    inputs.property "version", version
+    inputs.property "minecraft_version", minecraft_version
+    inputs.property "fabric_version", loader_version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": inputs.properties.version,
+                "minecraft_version": inputs.properties.minecraft_version,
+                "fabric_version": inputs.properties.fabric_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+    dependsOn(generateBuildConfig)
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+    inputs.property "archivesName", base.archivesName
+
+    from("LICENSE") {
+        rename { "${it}_${inputs.properties.archivesName}" }
+    }
+}
+
+def execute(String cmd) {
+    var output = providers.exec {
+        commandLine cmd.split(" ")
+        ignoreExitValue = true
+    }
+    return output.standardOutput.getAsText().getOrElse("invalid")
+            .replaceAll("\n", "");
+}
