@@ -100,6 +100,6 @@ public final class EventBus
     private void registerListener(Class<?> eventClass, Subscription subscription)
     {
         eventSubscriberMap.computeIfAbsent(
-                eventClass, (x) -> new LinkedList<>()).add(subscription);
+                eventClass, (x) -> new ArrayList<>()).add(subscription);
     }
 }
