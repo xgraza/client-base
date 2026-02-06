@@ -87,7 +87,9 @@ public class Setting<T> implements Nameable, JSONSerializable
         } else if (Boolean.class.isAssignableFrom(type) && primitive.isBoolean())
         {
             setValue((T) (Boolean) primitive.getAsBoolean());
-        } else if (Number.class.isAssignableFrom(type) && primitive.isNumber())
+        } else if (Number.class.isAssignableFrom(type)
+                && primitive.isNumber()
+                && type.isAssignableFrom(primitive.getAsNumber().getClass()))
         {
             if (Integer.class.isAssignableFrom(type))
             {
