@@ -40,9 +40,4 @@ public interface SettingProvider
     {
         return new ColorSetting.Builder(name, value);
     }
-
-    default ColorSetting.Builder builder(final String name)
-    {
-        return new ColorSetting.Builder(name, null);
-    }
 }

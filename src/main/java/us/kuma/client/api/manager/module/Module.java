@@ -35,7 +35,9 @@ public class Module implements SettingProvider, JSONSerializable, Nameable
     private final Map<String, Setting<?>> settingToNameMap = new LinkedHashMap<>();
     private final List<Setting<?>> settingList = new LinkedList<>();
 
-    private boolean drawn = true;
+    private final Setting<Boolean> drawnSetting = builder("Drawn", true)
+            .setDescription("If to show this module while rendering the arraylist")
+            .build();
 
     public Module()
     {
@@ -61,6 +63,7 @@ public class Module implements SettingProvider, JSONSerializable, Nameable
     @Override
     public void discoverSettings()
     {
+        registerSetting(drawnSetting);
         for (final Field field : getClass().getDeclaredFields())
         {
             if (!Setting.class.isAssignableFrom(field.getType()) || !field.trySetAccessible())
@@ -105,12 +108,12 @@ public class Module implements SettingProvider, JSONSerializable, Nameable
 
     public void setDrawn(boolean drawn)
     {
-        this.drawn = drawn;
+        drawnSetting.setValue(drawn);
     }
 
     public boolean isDrawn()
     {
-        return drawn;
+        return drawnSetting.getValue();
     }
 
     @Override
@@ -143,7 +146,6 @@ public class Module implements SettingProvider, JSONSerializable, Nameable
     public JsonElement toJSON()
     {
         final JsonObject object = new JsonObject();
-        object.addProperty("drawn", drawn);
         object.addProperty("state", isToggled());
         if (!settingList.isEmpty())
         {

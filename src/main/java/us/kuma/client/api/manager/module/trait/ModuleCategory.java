@@ -10,7 +10,20 @@ package us.kuma.client.api.manager.module.trait;
  */
 public enum ModuleCategory
 {
-    MOVEMENT,
-    RENDER,
-    CLIENT
+    MOVEMENT("Movement"),
+    RENDER("Render"),
+    CLIENT("Client");
+
+    private final String displayName;
+
+    ModuleCategory(String displayName)
+    {
+        this.displayName = displayName;
+    }
+
+    @Override
+    public String toString()
+    {
+        return displayName;
+    }
 }

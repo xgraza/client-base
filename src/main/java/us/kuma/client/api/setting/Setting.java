@@ -52,6 +52,11 @@ public class Setting<T> implements Nameable, JSONSerializable
         return defaultValue;
     }
 
+    public Class<T> getType()
+    {
+        return type;
+    }
+
     public void setValue(T value)
     {
         this.value = value;

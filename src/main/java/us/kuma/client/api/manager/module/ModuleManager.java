@@ -31,22 +31,23 @@ public final class ModuleManager implements InstancedManager<Module>, JSONSerial
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModuleManager.class);
     private static final Minecraft MC = Minecraft.getInstance();
-
-    private static final File CONFIGS_DIRECTORY = FileUtil.resolve("configs");
     private static final String DEFAULT_CONFIG_NAME = "default";
 
     private final List<Module> moduleInstanceList = new LinkedList<>();
+    private File configDirectory;
 
     @Override
     public void init()
     {
-        if (!CONFIGS_DIRECTORY.exists())
+        configDirectory = FileUtil.resolve("configs");
+        ;
+        if (!configDirectory.exists())
         {
-            final boolean result = CONFIGS_DIRECTORY.mkdir();
+            final boolean result = configDirectory.mkdir();
             if (!result)
             {
                 throw new RuntimeException("Could not create %s"
-                        .formatted(CONFIGS_DIRECTORY.getAbsolutePath()));
+                        .formatted(configDirectory.getAbsolutePath()));
             }
         }
 
@@ -140,6 +141,6 @@ public final class ModuleManager implements InstancedManager<Module>, JSONSerial
     @Override
     public File getLocation()
     {
-        return FileUtil.resolve(CONFIGS_DIRECTORY, DEFAULT_CONFIG_NAME + ".json");
+        return FileUtil.resolve(configDirectory, DEFAULT_CONFIG_NAME + ".json");
     }
 }
