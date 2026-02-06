@@ -10,9 +10,6 @@ import us.kuma.client.util.BuildConfig;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -42,25 +39,12 @@ public final class FileUtil
 
     public static String readFile(final File file) throws IOException
     {
-        try (final InputStream is = Files.newInputStream(file.toPath()))
-        {
-            final StringBuilder builder = new StringBuilder();
-            int b;
-            while ((b = is.read()) != -1)
-            {
-                builder.append((char) b);
-            }
-            return builder.toString();
-        }
+        return Files.readString(file.toPath());
     }
 
     public static void writeFile(final File file, final String content) throws IOException
     {
-        try (final OutputStream os = Files.newOutputStream(file.toPath()))
-        {
-            final byte[] bytes = content.getBytes(StandardCharsets.UTF_8);
-            os.write(bytes, 0, bytes.length);
-        }
+        Files.writeString(file.toPath(), content);
     }
 
     public static File resolve(final File file, final String... paths)
