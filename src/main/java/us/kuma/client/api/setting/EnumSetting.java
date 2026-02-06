@@ -7,8 +7,6 @@ package us.kuma.client.api.setting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Predicate;
 
 /**
@@ -18,35 +16,24 @@ import java.util.function.Predicate;
  */
 public final class EnumSetting<T extends Enum<T>> extends Setting<T>
 {
-    private final Map<T, Integer> constantToOrdinalMap = new HashMap<>();
-    private final Map<Integer, T> ordinalToConstantMap = new HashMap<>();
-
-    private final int constantLength;
-    private int ordinal;
+    private final T[] enumConstants;
 
     public EnumSetting(String name, String description, Predicate<T> visibility, T value)
     {
         super(name, description, visibility, value);
-        final T[] constants = value.getDeclaringClass().getEnumConstants();
-        for (final T constant : constants)
-        {
-            ordinalToConstantMap.put(constant.ordinal(), constant);
-            constantToOrdinalMap.put(constant, constant.ordinal());
-        }
-        constantLength = constants.length;
+        enumConstants = value.getDeclaringClass().getEnumConstants();
     }
 
     @Override
     public void setValue(final T value)
     {
         super.setValue(value);
-        ordinal = constantToOrdinalMap.get(value);
     }
 
     public void nextValue()
     {
-        int nextOrdinal = ordinal + 1;
-        if (nextOrdinal > constantLength - 1)
+        int nextOrdinal = getValue().ordinal() + 1;
+        if (nextOrdinal > enumConstants.length - 1)
         {
             nextOrdinal = 0;
         }
@@ -55,22 +42,21 @@ public final class EnumSetting<T extends Enum<T>> extends Setting<T>
 
     public void previousValue()
     {
-        int nextOrdinal = ordinal - 1;
+        int nextOrdinal = getValue().ordinal() - 1;
         if (nextOrdinal < 0)
         {
-            nextOrdinal = constantLength - 1;
+            nextOrdinal = enumConstants.length - 1;
         }
         setValue(getForOrdinal(nextOrdinal));
     }
 
     public T getForOrdinal(final int ordinal)
     {
-        return ordinalToConstantMap.getOrDefault(ordinal, null);
-    }
-
-    public int getOrdinal()
-    {
-        return ordinal;
+        if (ordinal > enumConstants.length - 1 || ordinal < 0)
+        {
+            return null;
+        }
+        return enumConstants[ordinal];
     }
 
     @Override
@@ -90,7 +76,7 @@ public final class EnumSetting<T extends Enum<T>> extends Setting<T>
     @Override
     public JsonElement toJSON()
     {
-        return new JsonPrimitive(getOrdinal());
+        return new JsonPrimitive(getValue().ordinal());
     }
 
     public static final class Builder<T extends Enum<T>> extends Setting.Builder<T>
