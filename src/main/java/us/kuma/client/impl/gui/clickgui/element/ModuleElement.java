@@ -55,9 +55,11 @@ public final class ModuleElement extends Element implements Parent<Element>
         }
 
         graphics.drawString(MC.font, module.getName(), (int) (x + 3), (int) (y + 2), -1);
-
-        int textWidth = MC.font.width("+") + 3;
-        graphics.drawString(MC.font, "+", (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
+       
+        String symbol = opened ? "-" : "+";
+        int textWidth = MC.font.width(symbol) + 3;
+        graphics.drawString(MC.font, symbol, (int) (x + getWidth() - textWidth), (int) (y + 2), -1
+        );
 
         if (!opened)
         {
