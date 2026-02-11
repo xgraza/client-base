@@ -62,12 +62,26 @@ public final class PanelElement extends Element implements Parent<ModuleElement>
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button, int modifiers, boolean doubleClick)
+    public boolean mouseClicked(double x, double y, int button, int modifiers, boolean doubleClick)
     {
         for (ModuleElement child : getChildren())
         {
-            if (child.mouseInside(mouseX, mouseY)
-                    && child.mouseClicked(mouseX, mouseY, button, modifiers, doubleClick))
+            if (child.mouseInside(x, y)
+                    && child.mouseClicked(x, y, button, modifiers, doubleClick))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean mouseReleased(double x, double y, int button, int modifiers)
+    {
+        for (ModuleElement child : getChildren())
+        {
+            if (child.mouseReleased(x, y, button, modifiers))
             {
                 return true;
             }

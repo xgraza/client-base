@@ -20,7 +20,7 @@ public final class NumberSetting<T extends Number> extends Setting<T>
     {
         super(name, description, visibility, value);
         this.min = min;
-        this.max = min;
+        this.max = max;
         this.scale = scale;
     }
 

@@ -9,9 +9,11 @@ import org.lwjgl.glfw.GLFW;
 import us.kuma.client.api.manager.module.Module;
 import us.kuma.client.api.render.Element;
 import us.kuma.client.api.render.Parent;
+import us.kuma.client.api.setting.NumberSetting;
 import us.kuma.client.api.setting.Setting;
 import us.kuma.client.impl.gui.clickgui.element.type.BooleanTypeElement;
 import us.kuma.client.impl.gui.clickgui.element.type.EnumTypeElement;
+import us.kuma.client.impl.gui.clickgui.element.type.NumberTypeElement;
 
 import java.awt.Color;
 import java.util.LinkedList;
@@ -42,6 +44,9 @@ public final class ModuleElement extends Element implements Parent<Element>
             } else if (Enum.class.isAssignableFrom(setting.getType()))
             {
                 addChild(new EnumTypeElement((Setting<Enum<?>>) setting));
+            } else if (Number.class.isAssignableFrom(setting.getType()))
+            {
+                addChild(new NumberTypeElement((NumberSetting<?>) setting));
             }
         }
     }
@@ -55,7 +60,7 @@ public final class ModuleElement extends Element implements Parent<Element>
         }
 
         graphics.drawString(MC.font, module.getName(), (int) (x + 3), (int) (y + 2), -1);
-       
+
         String symbol = opened ? "-" : "+";
         int textWidth = MC.font.width(symbol) + 3;
         graphics.drawString(MC.font, symbol, (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
@@ -80,14 +85,14 @@ public final class ModuleElement extends Element implements Parent<Element>
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button, int modifiers, boolean doubleClick)
+    public boolean mouseClicked(double x, double y, int button, int modifiers, boolean doubleClick)
     {
-        if (!mouseInside(mouseX, mouseY))
+        if (!mouseInside(x, y))
         {
             return false;
         }
 
-        if (mouseInside(mouseX, mouseY, getWidth(), ELEMENT_BASE_HEIGHT))
+        if (mouseInside(x, y, getWidth(), ELEMENT_BASE_HEIGHT))
         {
             if (button == GLFW.GLFW_MOUSE_BUTTON_1)
             {
@@ -106,13 +111,30 @@ public final class ModuleElement extends Element implements Parent<Element>
             }
             for (Element child : getChildren())
             {
-                if (child.mouseInside(mouseX, mouseY) && child.mouseClicked(mouseX, mouseY, button, modifiers, doubleClick))
+                if (child.mouseInside(x, y) && child.mouseClicked(x, y, button, modifiers, doubleClick))
                 {
                     return true;
                 }
             }
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean mouseReleased(double x, double y, int button, int modifiers)
+    {
+        if (!opened)
+        {
+            return false;
+        }
+        for (Element child : getChildren())
+        {
+            if (child.mouseReleased(x, y, button, modifiers))
+            {
+                return true;
+            }
+        }
         return false;
     }
 

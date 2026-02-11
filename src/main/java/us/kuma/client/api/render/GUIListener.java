@@ -14,8 +14,13 @@ public interface GUIListener
 {
     void render(final GuiGraphics graphics, final int mouseX, final int mouseY);
 
-    default boolean mouseClicked(double mouseX, double mouseY, int button, int modifiers, boolean doubleClick)
+    default boolean mouseClicked(double x, double y, int button, int modifiers, boolean doubleClick)
     {
-        return true;
+        return false;
+    }
+
+    default boolean mouseReleased(double x, double y, int button, int modifiers)
+    {
+        return false;
     }
 }

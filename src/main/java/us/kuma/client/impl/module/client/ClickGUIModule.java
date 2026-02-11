@@ -7,6 +7,7 @@ package us.kuma.client.impl.module.client;
 import us.kuma.client.api.manager.module.Module;
 import us.kuma.client.api.manager.module.trait.ModuleCategory;
 import us.kuma.client.api.manager.module.trait.ModuleManifest;
+import us.kuma.client.api.setting.Setting;
 import us.kuma.client.impl.gui.clickgui.ModuleClickGUIScreen;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
@@ -18,6 +19,13 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 @ModuleManifest(name = "ClickGUI", category = ModuleCategory.CLIENT)
 public final class ClickGUIModule extends Module
 {
+    private final Setting<Integer> maxPanelHeightSetting = builder("Max Panel Height", 180)
+            .setMin(100)
+            .setMax(400)
+            .setScale(1)
+            .setDescription("How tall a panel can be before having to scroll")
+            .build();
+
     public ClickGUIModule()
     {
         getBind().setKey(GLFW_KEY_RIGHT_SHIFT);

@@ -80,21 +80,18 @@ public final class ModuleClickGUIScreen extends Screen
     }
 
     @Override
-    public boolean mouseScrolled(double d, double e, double f, double g)
+    public boolean mouseReleased(MouseButtonEvent mouseButtonEvent)
     {
-        return super.mouseScrolled(d, e, f, g);
-    }
-
-    @Override
-    public boolean mouseDragged(MouseButtonEvent mouseButtonEvent, double d, double e)
-    {
-        return super.mouseDragged(mouseButtonEvent, d, e);
-    }
-
-    @Override
-    public void mouseMoved(double d, double e)
-    {
-
+        double mouseX = mouseButtonEvent.x();
+        double mouseY = mouseButtonEvent.y();
+        for (PanelElement panelElement : panelElementList)
+        {
+            if (panelElement.mouseReleased(mouseX, mouseY, mouseButtonEvent.button(), mouseButtonEvent.modifiers()))
+            {
+                return true;
+            }
+        }
+        return true;
     }
 
     @Override
