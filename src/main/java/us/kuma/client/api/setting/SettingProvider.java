@@ -26,17 +26,17 @@ public interface SettingProvider
         return new Setting.Builder<T>(name, value);
     }
 
-    default <T extends Enum<T>> EnumSetting.Builder<T> builder(final String name, final T value)
+    default <T extends Enum<T>> EnumSetting.Builder<T> enumBuilder(final String name, final T value)
     {
         return new EnumSetting.Builder<>(name, value);
     }
 
-    default <T extends Number> NumberSetting.Builder<T> builder(final String name, final T value)
+    default <T extends Number> NumberSetting.Builder<T> numberBuilder(final String name, final T value)
     {
         return new NumberSetting.Builder<>(name, value);
     }
 
-    default ColorSetting.Builder builder(final String name, final Color value)
+    default ColorSetting.Builder colorBuilder(final String name, final Color value)
     {
         return new ColorSetting.Builder(name, value);
     }

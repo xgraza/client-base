@@ -19,7 +19,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 @ModuleManifest(name = "ClickGUI", category = ModuleCategory.CLIENT)
 public final class ClickGUIModule extends Module
 {
-    private final Setting<Integer> maxPanelHeightSetting = builder("Max Panel Height", 180)
+    private final Setting<Integer> maxPanelHeightSetting = numberBuilder("Max Panel Height", 180)
             .setMin(100)
             .setMax(400)
             .setScale(1)

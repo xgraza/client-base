@@ -27,7 +27,7 @@ public final class FullbrightModule extends Module
     private static final MobEffectInstance FAKE_NIGHT_VISION = new MobEffectInstance(
             MobEffects.NIGHT_VISION, -1, 1, false, false);
 
-    private final Setting<Mode> modeSetting = builder("Mode", Mode.GAMMA)
+    private final Setting<Mode> modeSetting = enumBuilder("Mode", Mode.GAMMA)
             .setDescription("How to brighten up the world")
             .build();
 
