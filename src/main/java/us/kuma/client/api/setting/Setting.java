@@ -10,6 +10,7 @@ import com.google.gson.JsonPrimitive;
 import us.kuma.client.api.manager.config.JSONSerializable;
 import us.kuma.client.api.trait.Nameable;
 
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -22,15 +23,17 @@ public class Setting<T> implements Nameable, JSONSerializable
     private final String name, description;
     private final T defaultValue;
     private final Predicate<T> visibility;
+    private final Consumer<T> valueChanged;
     private final Class<T> type;
     private T value;
 
     @SuppressWarnings("unchecked")
-    public Setting(final String name, final String description, final Predicate<T> visibility, final T value)
+    public Setting(final String name, final String description, final Predicate<T> visibility, final Consumer<T> valueChanged, final T value)
     {
         this.name = name;
         this.description = description;
         this.visibility = visibility;
+        this.valueChanged = valueChanged;
         this.value = value;
         this.defaultValue = value;
         this.type = (Class<T>) value.getClass();
@@ -60,6 +63,10 @@ public class Setting<T> implements Nameable, JSONSerializable
     public void setValue(T value)
     {
         this.value = value;
+        if (valueChanged != null)
+        {
+            valueChanged.accept(value);
+        }
     }
 
     public T getValue()
@@ -131,6 +138,7 @@ public class Setting<T> implements Nameable, JSONSerializable
         protected T value;
         protected String description = "No description was provided for this setting";
         protected Predicate<T> visibility;
+        protected Consumer<T> valueChanged;
 
         public Builder(String name, T value)
         {
@@ -155,9 +163,15 @@ public class Setting<T> implements Nameable, JSONSerializable
             return this;
         }
 
+        public Builder<T> onValueChanged(final Consumer<T> valueChanged)
+        {
+            this.valueChanged = valueChanged;
+            return this;
+        }
+
         public Setting<T> build()
         {
-            return new Setting<>(name, description, visibility, value);
+            return new Setting<>(name, description, visibility, valueChanged, value);
         }
     }
 }

@@ -5,6 +5,7 @@
 package us.kuma.client.api.setting;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -16,9 +17,9 @@ public final class NumberSetting<T extends Number> extends Setting<T>
 {
     private final T min, max, scale;
 
-    public NumberSetting(String name, String description, Predicate<T> visibility, T value, T min, T max, T scale)
+    public NumberSetting(String name, String description, Predicate<T> visibility, Consumer<T> valueChanged, T value, T min, T max, T scale)
     {
-        super(name, description, visibility, value);
+        super(name, description, visibility, valueChanged, value);
         this.min = min;
         this.max = max;
         this.scale = scale;
@@ -72,7 +73,7 @@ public final class NumberSetting<T extends Number> extends Setting<T>
             Objects.requireNonNull(min, "must set a min value");
             Objects.requireNonNull(max, "must set a max value");
             Objects.requireNonNull(scale, "must set a scale value");
-            return new NumberSetting<T>(name, description, visibility, value, min, max, scale);
+            return new NumberSetting<T>(name, description, visibility, valueChanged, value, min, max, scale);
         }
     }
 }

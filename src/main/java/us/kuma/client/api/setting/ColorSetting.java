@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.awt.Color;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -16,9 +17,9 @@ import java.util.function.Predicate;
  */
 public final class ColorSetting extends Setting<Color>
 {
-    public ColorSetting(String name, String description, Predicate<Color> visibility, Color value)
+    public ColorSetting(String name, String description, Predicate<Color> visibility, Consumer<Color> valueChanged, Color value)
     {
-        super(name, description, visibility, value);
+        super(name, description, visibility, valueChanged, value);
     }
 
     public int getValueInt()

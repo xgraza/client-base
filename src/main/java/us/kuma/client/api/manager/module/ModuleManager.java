@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import us.kuma.client.Kuma;
 import us.kuma.client.api.manager.InstancedManager;
 import us.kuma.client.api.manager.config.JSONSerializable;
+import us.kuma.client.api.manager.module.trait.ModuleInstance;
 import us.kuma.client.impl.module.client.ClickGUIModule;
+import us.kuma.client.impl.module.client.HUDModule;
 import us.kuma.client.impl.module.movement.SprintModule;
 import us.kuma.client.impl.module.render.FullbrightModule;
 import us.kuma.client.util.io.FileUtil;
@@ -40,7 +42,6 @@ public final class ModuleManager implements InstancedManager<Module>, JSONSerial
     public void init()
     {
         configDirectory = FileUtil.resolve("configs");
-        ;
         if (!configDirectory.exists())
         {
             final boolean result = configDirectory.mkdir();
@@ -53,6 +54,7 @@ public final class ModuleManager implements InstancedManager<Module>, JSONSerial
 
         // Client
         register(ClickGUIModule.class);
+        register(HUDModule.class);
 
         // Movement
         register(SprintModule.class);
@@ -68,19 +70,24 @@ public final class ModuleManager implements InstancedManager<Module>, JSONSerial
     {
         try
         {
-            Module instance = (Module) moduleClass.getConstructors()[0].newInstance();
+            Module module = null;
             for (final Field field : moduleClass.getDeclaredFields())
             {
-                // if you choose to do obfuscation/disable reflection, this would need to be removed
-                // granted, id expect module registering to be done from an external loader if you're
-                // going that route anyway...
-                if (moduleClass.isAssignableFrom(field.getType()) && field.getName().equals("INSTANCE"))
+                if (field.isAnnotationPresent(ModuleInstance.class)
+                        && moduleClass.isAssignableFrom(field.getType()))
                 {
-                    field.set(null, instance);
+                    System.out.println("Using " + field);
+                    module = (Module) field.get(null);
                 }
             }
-            instance.discoverSettings();
-            register(instance);
+            if (module == null)
+            {
+                System.out.println("Creating instance " + moduleClass);
+                module = (Module) moduleClass.getConstructors()[0].newInstance();
+            }
+
+            module.discoverSettings();
+            register(module);
         } catch (final Throwable e)
         {
             LOGGER.error("Failed to register module", e);

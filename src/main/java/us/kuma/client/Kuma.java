@@ -10,6 +10,7 @@ import us.kuma.client.api.event.EventBus;
 import us.kuma.client.api.manager.bind.BindManager;
 import us.kuma.client.api.manager.command.CommandManager;
 import us.kuma.client.api.manager.config.ConfigManager;
+import us.kuma.client.api.manager.hud.HUDManager;
 import us.kuma.client.api.manager.module.ModuleManager;
 import us.kuma.client.api.manager.server.CombatManager;
 import us.kuma.client.api.manager.server.RotationManager;
@@ -29,6 +30,7 @@ public enum Kuma
     private final ConfigManager configManager = new ConfigManager();
     private final BindManager bindManager = new BindManager();
     private final CommandManager commandManager = new CommandManager();
+    private final HUDManager hudManager = new HUDManager();
     private final ModuleManager moduleManager = new ModuleManager();
     private final RotationManager rotationManager = new RotationManager();
     private final CombatManager combatManager = new CombatManager();
@@ -42,6 +44,7 @@ public enum Kuma
         configManager.init();
         bindManager.init();
         commandManager.init();
+        hudManager.init();
         moduleManager.init();
         rotationManager.init();
         combatManager.init();
@@ -62,6 +65,11 @@ public enum Kuma
     public CommandManager getCommandManager()
     {
         return commandManager;
+    }
+
+    public HUDManager getHUDManager()
+    {
+        return hudManager;
     }
 
     public ModuleManager getModuleManager()

@@ -7,6 +7,7 @@ package us.kuma.client.api.setting;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -18,9 +19,9 @@ public final class EnumSetting<T extends Enum<T>> extends Setting<T>
 {
     private final T[] enumConstants;
 
-    public EnumSetting(String name, String description, Predicate<T> visibility, T value)
+    public EnumSetting(String name, String description, Predicate<T> visibility, Consumer<T> valueChanged, T value)
     {
-        super(name, description, visibility, value);
+        super(name, description, visibility, valueChanged, value);
         enumConstants = value.getDeclaringClass().getEnumConstants();
     }
 
@@ -89,7 +90,7 @@ public final class EnumSetting<T extends Enum<T>> extends Setting<T>
         @Override
         public EnumSetting<T> build()
         {
-            return new EnumSetting<>(name, description, visibility, value);
+            return new EnumSetting<>(name, description, visibility, valueChanged, value);
         }
     }
 }

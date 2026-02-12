@@ -13,6 +13,7 @@
     "render.LightTextureMixin",
     "render.gui.CommandSuggestionsMixin",
     "render.gui.GuiGraphicsMixin",
+    "render.gui.GuiMixin",
     "render.gui.screen.chat.ChatScreenMixin"
   ],
   "injectors": {
