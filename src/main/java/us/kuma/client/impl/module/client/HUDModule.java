@@ -42,7 +42,7 @@ public final class HUDModule extends Module
     @Subscribe
     public void onRenderHUD(final RenderHUDEvent event)
     {
-        if (MC.screen instanceof LevelLoadingScreen)
+        if (MC.gui.screen() instanceof LevelLoadingScreen)
         {
             return;
         }

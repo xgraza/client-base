@@ -4,7 +4,7 @@
 
 package us.kuma.client.impl.gui.clickgui.element.type;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.lwjgl.glfw.GLFW;
 import us.kuma.client.api.render.Element;
 import us.kuma.client.api.setting.EnumSetting;
@@ -26,12 +26,12 @@ public final class EnumTypeElement extends Element
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY)
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
-        graphics.drawString(MC.font, setting.getName(), (int) (x + 3), (int) (y + 2), -1);
+        graphics.text(MC.font, setting.getName(), (int) (x + 3), (int) (y + 2), -1);
 
         int textWidth = MC.font.width(getEnumName());
-        graphics.drawString(MC.font, getEnumName(), (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
+        graphics.text(MC.font, getEnumName(), (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
     }
 
     @Override

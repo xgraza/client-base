@@ -40,7 +40,7 @@ public final class ClickGUIModule extends Module
             setState(false);
             return;
         }
-        MC.setScreen(ModuleClickGUIScreen.getInstance());
+        MC.setScreenAndShow(ModuleClickGUIScreen.getInstance());
         setState(false);
     }
 }

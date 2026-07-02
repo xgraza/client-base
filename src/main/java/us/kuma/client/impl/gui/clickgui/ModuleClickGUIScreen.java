@@ -4,7 +4,7 @@
 
 package us.kuma.client.impl.gui.clickgui;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
@@ -49,7 +49,7 @@ public final class ModuleClickGUIScreen extends Screen
     }
 
     @Override
-    public void render(final GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
+    public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
     {
         for (PanelElement panelElement : panelElementList)
         {
@@ -58,7 +58,7 @@ public final class ModuleClickGUIScreen extends Screen
     }
 
     @Override
-    public void renderBackground(GuiGraphics guiGraphics, int i, int j, float f)
+    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a)
     {
         // intentionally blank
     }

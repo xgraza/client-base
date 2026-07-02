@@ -48,7 +48,7 @@ public final class BindManager implements InstancedManager<Bind>, JSONSerializab
     @Subscribe
     public void onKeyInput(final KeyInputEvent event)
     {
-        if (MC.screen != null || event.keyCode() <= GLFW_KEY_UNKNOWN)
+        if (MC.gui.screen() != null || event.keyCode() <= GLFW_KEY_UNKNOWN)
         {
             return;
         }

@@ -4,9 +4,10 @@
 
 package us.kuma.client.mixin.impl.render.gui;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,9 +22,13 @@ import us.kuma.client.impl.event.render.RenderHUDEvent;
 @Mixin(Gui.class)
 public final class GuiMixin
 {
-    @Inject(method = "render", at = @At("TAIL"))
-    private void hook$render(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo info)
+    @Inject(method = "extractRenderState",
+            at = @At(value = "INVOKE",
+                    target = "Lnet/minecraft/util/profiling/ProfilerFiller;pop()V",
+                    shift = At.Shift.BEFORE,
+                    ordinal = 3))
+    private void a(DeltaTracker deltaTracker, boolean shouldRenderLevel, boolean resourcesLoaded, CallbackInfo info, @Local(name = "graphics") GuiGraphicsExtractor graphics)
     {
-        Kuma.EVENT_BUS.post(new RenderHUDEvent(guiGraphics));
+        Kuma.EVENT_BUS.post(new RenderHUDEvent(graphics));
     }
 }

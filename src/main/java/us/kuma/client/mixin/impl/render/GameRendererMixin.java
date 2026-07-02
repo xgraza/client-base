@@ -24,7 +24,7 @@ import us.kuma.client.impl.event.render.RenderNightVisonEffectEvent;
 @Mixin(GameRenderer.class)
 public final class GameRendererMixin
 {
-    @Redirect(method = "getNightVisionScale",
+    @Redirect(method = "nightVisionScale",
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/entity/LivingEntity;getEffect(Lnet/minecraft/core/Holder;)Lnet/minecraft/world/effect/MobEffectInstance;"))
     private static @Nullable MobEffectInstance hook$getNightVisionScale$getEffect(final LivingEntity livingEntity, final Holder<MobEffect> holder)

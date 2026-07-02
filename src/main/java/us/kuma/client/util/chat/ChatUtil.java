@@ -31,7 +31,7 @@ public final class ChatUtil
                 .append(CLIENT_PREFIX)
                 .append(" > ");
         builder.accept(component);
-        MC.gui.getChat().addMessage(component);
+        MC.gui.hud.getChat().addServerSystemMessage(component);
     }
 
     public static void send(final String message)

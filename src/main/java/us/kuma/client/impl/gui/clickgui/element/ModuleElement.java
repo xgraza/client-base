@@ -4,7 +4,7 @@
 
 package us.kuma.client.impl.gui.clickgui.element;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.lwjgl.glfw.GLFW;
 import us.kuma.client.api.manager.module.Module;
 import us.kuma.client.api.render.Element;
@@ -52,25 +52,25 @@ public final class ModuleElement extends Element implements Parent<Element>
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY)
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
         if (module.isToggled())
         {
             graphics.fill((int) x, (int) y, (int) (x + getWidth()), (int) (y + ELEMENT_BASE_HEIGHT), PANEL_COLOR);
         }
 
-        graphics.drawString(MC.font, module.getName(), (int) (x + 3), (int) (y + 2), -1);
+        graphics.text(MC.font, module.getName(), (int) (x + 3), (int) (y + 2), -1);
 
         String symbol = opened ? "-" : "+";
         int textWidth = MC.font.width(symbol) + 3;
-        graphics.drawString(MC.font, symbol, (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
+        graphics.text(MC.font, symbol, (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
 
         if (!opened)
         {
             return;
         }
 
-        graphics.renderOutline((int) x, (int) y, (int) getWidth(), (int) getHeight(), PANEL_COLOR);
+        graphics.outline((int) x, (int) y, (int) getWidth(), (int) getHeight(), PANEL_COLOR);
 
         double elementY = getY() + ELEMENT_BASE_HEIGHT + PADDING;
         for (Element child : getChildren())

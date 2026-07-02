@@ -4,7 +4,7 @@
 
 package us.kuma.client.impl.gui.clickgui.element.type;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import us.kuma.client.api.render.Element;
 import us.kuma.client.api.setting.NumberSetting;
 import us.kuma.client.util.math.MathUtil;
@@ -32,7 +32,7 @@ public final class NumberTypeElement extends Element
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY)
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
         if (dragging)
         {
@@ -43,11 +43,11 @@ public final class NumberTypeElement extends Element
         double barWidth = setting.getValue().doubleValue() < setting.getMin().doubleValue() ? 0.0 : (getWidth() - 2.0) * part;
         graphics.fill((int) x, (int) y, (int) (x + barWidth), (int) (y + height), SLIDER_COLOR);
 
-        graphics.drawString(MC.font, setting.getName(), (int) (x + 3), (int) (y + 2), -1);
+        graphics.text(MC.font, setting.getName(), (int) (x + 3), (int) (y + 2), -1);
 
         String value = String.valueOf(setting.getValue());
         int textWidth = MC.font.width(value);
-        graphics.drawString(MC.font, value, (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
+        graphics.text(MC.font, value, (int) (x + getWidth() - textWidth), (int) (y + 2), -1);
     }
 
     @Override

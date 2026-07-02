@@ -4,7 +4,7 @@
 
 package us.kuma.client.api.manager.hud;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import us.kuma.client.api.manager.hud.trait.HUDManifest;
 import us.kuma.client.api.manager.hud.trait.HUDOrigin;
 import us.kuma.client.api.render.ScreenElement;
@@ -52,7 +52,7 @@ public abstract class HUDElement implements Nameable, SettingProvider, ScreenEle
         }
     }
 
-    public abstract void render(final GuiGraphics graphics);
+    public abstract void render(final GuiGraphicsExtractor graphics);
 
     @Override
     public void discoverSettings()

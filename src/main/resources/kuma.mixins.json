@@ -10,9 +10,8 @@
     "input.KeyboardHandlerMixin",
     "network.ClientPacketListenerMixin",
     "render.GameRendererMixin",
-    "render.LightTextureMixin",
+    "render.LightmapRenderStateExtractorMixin",
     "render.gui.CommandSuggestionsMixin",
-    "render.gui.GuiGraphicsMixin",
     "render.gui.GuiMixin",
     "render.gui.screen.chat.ChatScreenMixin"
   ],

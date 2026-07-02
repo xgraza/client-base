@@ -4,7 +4,7 @@
 
 package us.kuma.client.impl.hud;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import us.kuma.client.api.manager.hud.HUDElement;
 import us.kuma.client.api.manager.hud.trait.HUDManifest;
 import us.kuma.client.api.manager.hud.trait.HUDOrigin;
@@ -19,12 +19,12 @@ import us.kuma.client.util.BuildConfig;
 public final class WatermarkHUDElement extends HUDElement
 {
     @Override
-    public void render(final GuiGraphics graphics)
+    public void render(final GuiGraphicsExtractor graphics)
     {
         String text = BuildConfig.NAME + " v" + BuildConfig.VERSION;
         int width = MC.font.width(text);
         setWidth(width);
         setHeight(MC.font.lineHeight);
-        graphics.drawString(MC.font, text, (int) getX(), (int) getY(), -1);
+        graphics.text(MC.font, text, (int) getX(), (int) getY(), -1);
     }
 }

@@ -30,7 +30,7 @@ public abstract class ChatScreenMixin extends Screen
     @Shadow public abstract String normalizeChatMessage(String string);
 
     @Shadow
-    CommandSuggestions commandSuggestions;
+    private CommandSuggestions commandSuggestions;
 
     protected ChatScreenMixin(Component component)
     {
@@ -53,7 +53,7 @@ public abstract class ChatScreenMixin extends Screen
             info.cancel();
             if (save)
             {
-                minecraft.gui.getChat().addRecentChat(input);
+                minecraft.gui.hud.getChat().addRecentChat(input);
             }
             ParseResults<ClientSuggestionProvider> parseResults = ((DuckCommandSuggestions) commandSuggestions)
                     .hook$getCurrentParse();

@@ -4,7 +4,7 @@
 
 package us.kuma.client.impl.gui.clickgui.element.type;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import org.lwjgl.glfw.GLFW;
 import us.kuma.client.api.render.Element;
 import us.kuma.client.api.setting.Setting;
@@ -29,13 +29,13 @@ public final class BooleanTypeElement extends Element
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY)
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
         drawCheckbox(graphics);
-        graphics.drawString(MC.font, setting.getName(), (int) (x + 3), (int) (y + 2), -1);
+        graphics.text(MC.font, setting.getName(), (int) (x + 3), (int) (y + 2), -1);
     }
 
-    private void drawCheckbox(final GuiGraphics graphics)
+    private void drawCheckbox(final GuiGraphicsExtractor graphics)
     {
         final double checkboxSize = height - (PADDING * 2);
         final double checkboxX = x + width - checkboxSize - PADDING;

@@ -39,36 +39,35 @@ public abstract class CommandSuggestionsMixin implements DuckCommandSuggestions
     @Shadow
     private ParseResults<ClientSuggestionProvider> currentParse;
     @Shadow
-    boolean keepSuggestions;
-    @Shadow
-    @Final
-    EditBox input;
+    private boolean keepSuggestions;
+    @Shadow @Final
+    private EditBox input;
 
     @Shadow
-    protected abstract void updateUsageInfo();
+    protected abstract void updateUsageInfo(ParseResults<ClientSuggestionProvider> p, Suggestions s);
 
     @SuppressWarnings("unchecked")
-    @Inject(method = "updateCommandInfo", at = @At("RETURN"))
-    public void updateCommandInfo(CallbackInfo info, @Local StringReader stringReader)
+    @Inject(method = "updateCommandInfo", at = @At("TAIL"))
+    public void updateCommandInfo(CallbackInfo info, @Local(name = "reader") StringReader reader)
     {
         CommandManager commands = Kuma.INSTANCE.getCommandManager();
-        if (!stringReader.canRead() || !stringReader.getString().startsWith(commands.getCommandPrefix()))
+        if (!reader.canRead() || !reader.getString().startsWith(commands.getCommandPrefix()))
         {
             return;
         }
-        stringReader.skip();
+        reader.skip();
 
         CommandDispatcher<CommandSource> dispatcher = commands.getDispatcher();
-        ParseResults<CommandSource> parse = dispatcher.parse(stringReader, new CommandSource(commands, dispatcher));
+        ParseResults<CommandSource> parse = dispatcher.parse(reader, new CommandSource(commands, dispatcher));
         currentParse = (ParseResults<ClientSuggestionProvider>) (Object) parse;
         if (suggestions == null || !keepSuggestions)
         {
             pendingSuggestions = dispatcher.getCompletionSuggestions(parse, input.getCursorPosition());
-            pendingSuggestions.thenRun(() ->
+            pendingSuggestions.thenAccept((suggestions) ->
             {
                 if (pendingSuggestions.isDone())
                 {
-                    updateUsageInfo();
+                    updateUsageInfo(currentParse, suggestions);
                 }
             });
         }

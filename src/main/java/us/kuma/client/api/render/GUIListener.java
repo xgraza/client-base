@@ -4,7 +4,7 @@
 
 package us.kuma.client.api.render;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 /**
  * @author xgraza
@@ -12,7 +12,7 @@ import net.minecraft.client.gui.GuiGraphics;
  */
 public interface GUIListener
 {
-    void render(final GuiGraphics graphics, final int mouseX, final int mouseY);
+    void render(final GuiGraphicsExtractor graphics, final int mouseX, final int mouseY);
 
     default boolean mouseClicked(double x, double y, int button, int modifiers, boolean doubleClick)
     {

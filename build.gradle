@@ -3,7 +3,7 @@
  */
 
 plugins {
-    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'com.github.gmazzo.buildconfig' version "${build_config_version}"
 }
 
@@ -29,19 +29,13 @@ base {
     archivesName = project.archives_base_name
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/kuma.accesswidener")
-}
-
 repositories {
     mavenCentral()
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:$minecraft_version"
-    mappings loom.officialMojangMappings()
-
-    modImplementation "net.fabricmc:fabric-loader:$loader_version"
+    implementation "net.fabricmc:fabric-loader:$loader_version"
 }
 
 processResources {
@@ -57,13 +51,13 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.release = 25
     dependsOn(generateBuildConfig)
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {

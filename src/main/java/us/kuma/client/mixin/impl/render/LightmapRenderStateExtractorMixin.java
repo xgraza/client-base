@@ -4,7 +4,7 @@
 
 package us.kuma.client.mixin.impl.render;
 
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.LightmapRenderStateExtractor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -15,11 +15,11 @@ import us.kuma.client.impl.event.render.LightTextureGammaEvent;
  * @author xgraza
  * @since 1/26/26
  */
-@Mixin(LightTexture.class)
-public final class LightTextureMixin
+@Mixin(LightmapRenderStateExtractor.class)
+public final class LightmapRenderStateExtractorMixin
 {
-    @Redirect(method = "updateLightTexture",
-            at = @At(value = "INVOKE", target = "Ljava/lang/Float;floatValue()F"))
+    @Redirect(method = "extract",
+            at = @At(value = "INVOKE", target = "Ljava/lang/Float;floatValue()F", ordinal = 0))
     private float hook$updateLightTexture$floatValue(Float gamma)
     {
         final LightTextureGammaEvent event = new LightTextureGammaEvent(gamma);

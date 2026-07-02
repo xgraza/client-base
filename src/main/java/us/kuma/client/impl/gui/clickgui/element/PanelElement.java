@@ -4,7 +4,7 @@
 
 package us.kuma.client.impl.gui.clickgui.element;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import us.kuma.client.api.manager.module.Module;
 import us.kuma.client.api.manager.module.trait.ModuleCategory;
 import us.kuma.client.api.render.Element;
@@ -43,12 +43,12 @@ public final class PanelElement extends Element implements Parent<ModuleElement>
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY)
+    public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
     {
         graphics.fill((int) x, (int) y, (int) (x + PANEL_WIDTH), (int) (y + PANEL_HEADER_HEIGHT), PANEL_COLOR);
         graphics.fill((int) x, (int) (y + PANEL_HEADER_HEIGHT), (int) (x + PANEL_WIDTH), (int) (y + getHeight()), BG_COLOR);
-        graphics.renderOutline((int) x, (int) y, PANEL_WIDTH, (int) getHeight(), PANEL_COLOR);
-        graphics.drawString(MC.font, category.toString(), (int) x + 2, (int) y + 4, -1);
+        graphics.outline((int) x, (int) y, PANEL_WIDTH, (int) getHeight(), PANEL_COLOR);
+        graphics.text(MC.font, category.toString(), (int) x + 2, (int) y + 4, -1);
 
         double elementY = getY() + PANEL_HEADER_HEIGHT + 1;
         for (ModuleElement child : getChildren())
