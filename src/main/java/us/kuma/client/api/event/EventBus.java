@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author xgraza
@@ -100,6 +101,6 @@ public final class EventBus
     private void registerListener(Class<?> eventClass, Subscription subscription)
     {
         eventSubscriberMap.computeIfAbsent(
-                eventClass, (x) -> new ArrayList<>()).add(subscription);
+                eventClass, (x) -> new CopyOnWriteArrayList<>()).add(subscription);
     }
 }
